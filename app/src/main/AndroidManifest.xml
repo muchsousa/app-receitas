@@ -13,6 +13,10 @@
         android:theme="@style/Theme.AppReceitas"
         tools:targetApi="31">
         <activity
+            android:name=".ShowRecipeActivity"
+            android:exported="false"
+            android:theme="@style/Theme.AppReceitas" />
+        <activity
             android:name=".Home"
             android:exported="false" />
         <activity

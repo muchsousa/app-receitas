@@ -22,18 +22,22 @@ class MainActivity : AppCompatActivity() {
         password = findViewById(R.id.login_password)
         buttonLogin = findViewById(R.id.button_login)
 
-        buttonLogin.setOnClickListener{
-            if (
-                email.text.toString().equals("teste@gmail.com") &&
-                password.text.toString().equals("1234")
-            ){
-                Toast.makeText(this,"Carregando...",Toast.LENGTH_LONG).show()
+        var intent = Intent(applicationContext, Home::class.java)
+        startActivity(intent)
 
-                var intent = Intent(applicationContext, Home::class.java)
-                startActivity(intent)
-            } else {
-                Toast.makeText(this,"Email ou Senha incorretos",Toast.LENGTH_LONG).show()
-            }
-        }
+
+//        buttonLogin.setOnClickListener{
+//            if (
+//                email.text.toString().equals("teste@gmail.com") &&
+//                password.text.toString().equals("1234")
+//            ){
+//                Toast.makeText(this,"Carregando...",Toast.LENGTH_LONG).show()
+//
+//                var intent = Intent(applicationContext, Home::class.java)
+//                startActivity(intent)
+//            } else {
+//                Toast.makeText(this,"Email ou Senha incorretos",Toast.LENGTH_LONG).show()
+//            }
+//        }
     }
 }
