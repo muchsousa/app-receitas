@@ -10,9 +10,9 @@ import androidx.appcompat.app.AppCompatActivity
 
 class MainActivity : AppCompatActivity() {
 
-    lateinit var email: EditText
-    lateinit var password: EditText
-    lateinit var buttonLogin: Button
+    private lateinit var email: EditText
+    private lateinit var password: EditText
+    private lateinit var buttonLogin: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,22 +22,21 @@ class MainActivity : AppCompatActivity() {
         password = findViewById(R.id.login_password)
         buttonLogin = findViewById(R.id.button_login)
 
-        var intent = Intent(applicationContext, Home::class.java)
-        startActivity(intent)
+//        var intent = Intent(applicationContext, Home::class.java)
+//        startActivity(intent)
 
+        buttonLogin.setOnClickListener{
+            if (
+                email.text.toString().equals("teste@gmail.com") &&
+                password.text.toString().equals("1234")
+            ){
+                Toast.makeText(this,"Carregando...", Toast.LENGTH_LONG).show()
 
-//        buttonLogin.setOnClickListener{
-//            if (
-//                email.text.toString().equals("teste@gmail.com") &&
-//                password.text.toString().equals("1234")
-//            ){
-//                Toast.makeText(this,"Carregando...",Toast.LENGTH_LONG).show()
-//
-//                var intent = Intent(applicationContext, Home::class.java)
-//                startActivity(intent)
-//            } else {
-//                Toast.makeText(this,"Email ou Senha incorretos",Toast.LENGTH_LONG).show()
-//            }
-//        }
+                var intent = Intent(applicationContext, Home::class.java)
+                startActivity(intent)
+            } else {
+                Toast.makeText(this,"Email ou Senha incorretos", Toast.LENGTH_LONG).show()
+            }
+        }
     }
 }

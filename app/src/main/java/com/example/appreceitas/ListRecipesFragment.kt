@@ -6,7 +6,9 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.setFragmentResult
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.appreceitas.databinding.FragmentListRecipesBinding
@@ -34,10 +36,6 @@ class ListRecipesFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-//        binding.buttonFirst.setOnClickListener {
-//            findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
-//        }
-
         val applicationContext = requireContext()
         val recipeDBHelper = RecipeDBHelper(applicationContext)
         val recipeList = recipeDBHelper.getAllRecipes()
@@ -56,9 +54,9 @@ class ListRecipesFragment : Fragment() {
     }
 
     private fun onSelectRecipe(recipe: Recipe) {
-//        val bundle = bundleOf("recipeId" to recipe.id)
-//        findNavController().navigate(R.id.action_ListRecipes_to_ShowRecipe, bundle)
-        findNavController().navigate(R.id.action_ListRecipes_to_ShowRecipe)
+        val bundle = bundleOf("recipeId" to recipe.id)
+        findNavController().navigate(R.id.action_ListRecipes_to_ShowRecipe, bundle)
+//        findNavController().navigate(R.id.action_ListRecipes_to_ShowRecipe)
 
         Log.d("onSelectRecipe", recipe.id.toString())
     }

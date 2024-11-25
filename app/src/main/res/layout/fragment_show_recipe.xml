@@ -11,17 +11,10 @@
         android:layout_height="match_parent"
         android:padding="16dp">
 
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/tv_recipeName"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="TItulo da Receita" />
 
             <TextView
                 android:id="@+id/tv_description"

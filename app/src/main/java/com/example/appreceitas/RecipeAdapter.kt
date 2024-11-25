@@ -7,8 +7,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-import android.util.Log
-
 class RecipeAdapter(
     private val listRecipeItem : List<Recipe>,
     private val onItemClicked: (Recipe) -> Unit
@@ -18,12 +16,12 @@ class RecipeAdapter(
         val recipeName : TextView = itemView.findViewById(R.id.tvRecipeName)
         var recipeImage : ImageView = itemView.findViewById(R.id.imageView)
 
+        // TODO: apenas para debug, remover
         val recipeId: TextView = itemView.findViewById(R.id.tvRecipeId)
-
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecipeItemHolder {
-        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.item_receita,parent, false)
+        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.list_item_recipe, parent, false)
         return RecipeItemHolder(itemView)
     }
 
@@ -38,8 +36,6 @@ class RecipeAdapter(
 //        holder.recipeImage.setImageResource(recipe.imageResourceId)
 
         holder.itemView.setOnClickListener { onItemClicked(recipe) }
-
     }
-
 
 }

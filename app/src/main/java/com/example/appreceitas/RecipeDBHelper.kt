@@ -4,7 +4,6 @@ import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
-import android.database.sqlite.SQLiteConstraintException
 
 class RecipeDBHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
 
@@ -39,10 +38,8 @@ class RecipeDBHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
     }
 
     fun insertRecipe(name: String, image: String, ingredients: String, prepare: String, description: String): Long {
-        // Acessar o banco de dados em modo de escrita
         val db = this.writableDatabase
 
-        // Criar um ContentValues para armazenar os dados
         val values = ContentValues().apply {
             put(COLUMN_NAME, name)
             put(COLUMN_IMAGE, image)
@@ -51,7 +48,6 @@ class RecipeDBHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
             put(COLUMN_DESCRIPTION, description)
         }
 
-        // Inserir os dados na tabela e retornar o ID da nova linha inserida
         return db.insert(TABLE_RECIPES, null, values)
     }
 
@@ -67,13 +63,13 @@ class RecipeDBHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         )
 
         val cursor = db.query(
-            TABLE_RECIPES,  // Tabela
-            projection,                          // Colunas a serem retornadas
-            null,                                // Sem condição WHERE
-            null,                                // Sem valores para condição WHERE
-            null,                                // Sem agrupamento
-            null,                                // Sem condição HAVING
-            null                                 // Ordem
+            TABLE_RECIPES,
+            projection,
+            null,
+            null,
+            null,
+            null,
+            null
         )
 
         val recipeItems = mutableListOf<Recipe>()

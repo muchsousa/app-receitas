@@ -1,15 +1,13 @@
 package com.example.appreceitas
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.navigation.fragment.findNavController
 import com.example.appreceitas.databinding.FragmentShowRecipeBinding
-
-import com.example.appreceitas.Home
 
 
 /**
@@ -36,21 +34,20 @@ class ShowRecipeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-//        (activity as Home).setSupportActionBar(view.findViewById(R.id.toolbar))
-//        (activity as Home).supportActionBar?.title = "xalala"
-
-
-//        setSupportActionBar(view.findViewById(R.id.toolbar))
-//        supportActionBar!!.title = "new title of toolbar"
-//        binding.buttonSecond.setOnClickListener {
-//            findNavController().navigate(R.id.action_ShowRecipe_to_ListRecipes)
-//        }
-
         val applicationContext = requireContext()
         val recipeDBHelper = RecipeDBHelper(applicationContext)
 
-        val recipeId = 6
+        val recipeId = getArguments()?.getInt("recipeId")
+        Log.d("ShowRecipeFragment - recipeId", recipeId.toString())
+
+        if (recipeId == null) {
+            return;
+        }
+
         val recipe = recipeDBHelper.getRecipeById(recipeId)
+
+        // Change title in toolbar
+        (activity as Home).supportActionBar?.setTitle(recipe.name)
 
         val recipeDescription : TextView = view.findViewById(R.id.tv_descriptionText)
         recipeDescription.text = recipe.description
