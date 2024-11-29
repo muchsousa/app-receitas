@@ -4,6 +4,11 @@ import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+
+import java.io.ByteArrayOutputStream
+
 
 class RecipeDBHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
 
@@ -24,7 +29,7 @@ class RecipeDBHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         val createTable = "CREATE TABLE $TABLE_RECIPES (" +
                 "$COLUMN_ID INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "$COLUMN_NAME TEXT, " +
-                "$COLUMN_IMAGE TEXT, " +
+                "$COLUMN_IMAGE BLOB, " +
                 "$COLUMN_INGREDIENTS TEXT, " +
                 "$COLUMN_PREPARE TEXT, " +
                 "$COLUMN_DESCRIPTION TEXT)"
@@ -37,12 +42,21 @@ class RecipeDBHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         onCreate(db)
     }
 
-    fun insertRecipe(name: String, image: String, ingredients: String, prepare: String, description: String): Long {
+    fun deleteAll() {
         val db = this.writableDatabase
+        db.execSQL("DELETE FROM $TABLE_RECIPES")
+    }
+
+    fun insertRecipe(name: String, image: Bitmap, ingredients: String, prepare: String, description: String): Long {
+        val db = this.writableDatabase
+
+        val stream = ByteArrayOutputStream()
+        image.compress(Bitmap.CompressFormat.JPEG, 70, stream)
+        val blobImage = stream.toByteArray()
 
         val values = ContentValues().apply {
             put(COLUMN_NAME, name)
-            put(COLUMN_IMAGE, image)
+            put(COLUMN_IMAGE, blobImage)
             put(COLUMN_INGREDIENTS, ingredients)
             put(COLUMN_PREPARE, prepare)
             put(COLUMN_DESCRIPTION, description)
@@ -77,13 +91,15 @@ class RecipeDBHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
             while (moveToNext()) {
                 val id = getInt(getColumnIndexOrThrow(COLUMN_ID))
                 val name = getString(getColumnIndexOrThrow(COLUMN_NAME))
-                val image = getString(getColumnIndexOrThrow(COLUMN_IMAGE))
+                val image = getBlob(getColumnIndexOrThrow(COLUMN_IMAGE))
                 val ingredients = getString(getColumnIndexOrThrow(COLUMN_INGREDIENTS))
                 val prepare = getString(getColumnIndexOrThrow(COLUMN_PREPARE))
                 val description = getString(getColumnIndexOrThrow(COLUMN_DESCRIPTION))
 
+                val imageBitmap = BitmapFactory.decodeByteArray(image, 0, image.size)
+
                 recipeItems.add(
-                    Recipe(id, name, image, ingredients, prepare, description)
+                    Recipe(id, name, imageBitmap, ingredients, prepare, description)
                 )
             }
         }
@@ -103,12 +119,14 @@ class RecipeDBHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
 
             val id = getInt(getColumnIndexOrThrow(COLUMN_ID))
             val name = getString(getColumnIndexOrThrow(COLUMN_NAME))
-            val image = getString(getColumnIndexOrThrow(COLUMN_IMAGE))
+            val image = getBlob(getColumnIndexOrThrow(COLUMN_IMAGE))
             val ingredients = getString(getColumnIndexOrThrow(COLUMN_INGREDIENTS))
             val prepare = getString(getColumnIndexOrThrow(COLUMN_PREPARE))
             val description = getString(getColumnIndexOrThrow(COLUMN_DESCRIPTION))
 
-            recipe = Recipe(id, name, image, ingredients, prepare, description)
+            val imageBitmap = BitmapFactory.decodeByteArray(image, 0, image.size)
+
+            recipe = Recipe(id, name, imageBitmap, ingredients, prepare, description)
         }
         cursor.close()
         return recipe

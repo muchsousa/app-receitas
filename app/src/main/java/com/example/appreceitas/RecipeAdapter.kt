@@ -1,5 +1,6 @@
 package com.example.appreceitas
 
+import android.graphics.BitmapFactory
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,9 +16,6 @@ class RecipeAdapter(
     class RecipeItemHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
         val recipeName : TextView = itemView.findViewById(R.id.tvRecipeName)
         var recipeImage : ImageView = itemView.findViewById(R.id.imageView)
-
-        // TODO: apenas para debug, remover
-        val recipeId: TextView = itemView.findViewById(R.id.tvRecipeId)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecipeItemHolder {
@@ -32,8 +30,7 @@ class RecipeAdapter(
     override fun onBindViewHolder(holder: RecipeItemHolder, position: Int) {
         val recipe = listRecipeItem[position]
         holder.recipeName.text = recipe.name
-        holder.recipeId.text = recipe.id.toString()
-//        holder.recipeImage.setImageResource(recipe.imageResourceId)
+        holder.recipeImage.setImageBitmap(recipe.image)
 
         holder.itemView.setOnClickListener { onItemClicked(recipe) }
     }

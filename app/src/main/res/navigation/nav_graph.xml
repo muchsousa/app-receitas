@@ -24,6 +24,7 @@
 
         <action
             android:id="@+id/action_ShowRecipe_to_ListRecipes"
-            app:destination="@id/ListRecipesFragment" />
+            app:destination="@id/ListRecipesFragment"
+            app:enterAnim="@anim/nav_default_enter_anim" />
     </fragment>
 </navigation>
